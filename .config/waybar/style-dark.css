@@ -7,15 +7,15 @@
     min-height: 10px;
 }
 
-@import "theme.css";
+@import "themes/mocha.css";
 
 window#waybar {
-    background: @bar-bg;
+  background-color: transparent;
 }
 
 tooltip {
-    background: @main-bg;
-    color: @main-fg;
+    background: @base;
+    color: @text;
     border-radius: 7px;
     border-width: 0px;
 }
@@ -31,31 +31,35 @@ tooltip {
     padding-left: 3px;
     padding-right: 3px;
     margin-right: 0px;
-    color: @main-fg;
-    animation: ws_normal 20s ease-in-out 1;
+    color: @text;
+    animation: tb_normal 20s ease-in-out 1;
 }
 
 #workspaces button.active {
-    background: @wb-act-bg;
-    color: @wb-act-fg;
+    background: @overlay0;
+    color: @text;
     margin-left: 3px;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 6px;
+    padding-right: 6px;
     margin-right: 3px;
     animation: ws_active 20s ease-in-out 1;
     transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
 #workspaces button:hover {
-    background: @wb-hvr-bg;
-    color: @wb-hvr-fg;
+    background: @overlay1;
+    color: @text;
     animation: ws_hover 20s ease-in-out 1;
     transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
+#taskbar {
+  background-color: transparent;
+}
+
 #taskbar button {
     box-shadow: none;
-	text-shadow: none;
+	  text-shadow: none;
     padding: 0px;
     border-radius: 9px;
     margin-top: 3px;
@@ -64,27 +68,28 @@ tooltip {
     padding-left: 3px;
     padding-right: 3px;
     margin-right: 0px;
-    color: @wb-color;
+    color: @text;
     animation: tb_normal 20s ease-in-out 1;
 }
 
 #taskbar button.active {
-    background: @wb-act-bg;
-    color: @wb-act-color;
+    background: @overlay0;
+    color: @text;
     margin-left: 3px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
     margin-right: 3px;
     animation: tb_active 20s ease-in-out 1;
     transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
 #taskbar button:hover {
-    background: @wb-hvr-bg;
-    color: @wb-hvr-color;
+    background: @overlay1;
+    color: @text;
     animation: tb_hover 20s ease-in-out 1;
     transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
 }
+
 
 #tray menu * {
     min-height: 16px
@@ -126,8 +131,8 @@ tooltip {
 #custom-sr_end,
 #custom-rl_end,
 #custom-rr_end {
-    color: @main-fg;
-    background: @main-bg;
+    color: @text;
+    background: @base;
     opacity: 1;
     margin: 4px 0px 4px 0px;
     padding-left: 4px;
@@ -137,6 +142,18 @@ tooltip {
 #workspaces,
 #taskbar {
     padding: 0px;
+}
+
+#window {
+    border-radius: 21px;
+    margin-left: 9px;
+    margin-right: 9px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+window#waybar.empty #window {
+    background-color: transparent;
 }
 
 #custom-r_end {

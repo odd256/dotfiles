@@ -3,7 +3,7 @@
 
     "layer": "top",
     "position": "top",
-    "mod": "dock",
+    "mode": "dock",
     "height": 42,
     "exclusive": true,
     "passthrough": false,
@@ -13,9 +13,9 @@
 
 // positions generated based on config.ctl //
 
-	"modules-left": ["custom/padd","custom/l_end","custom/power","custom/r_end","custom/l_end","wlr/taskbar","custom/spotify","custom/r_end","custom/padd"],
-	"modules-center": ["custom/padd","custom/l_end","clock","custom/r_end","custom/padd"],
-	"modules-right": ["custom/padd","custom/l_end","tray","network","custom/r_end","custom/l_end","backlight","pulseaudio","pulseaudio#microphone","battery","custom/notifications","custom/r_end","custom/padd"],
+	"modules-left": ["custom/padd","custom/l_end","custom/power","custom/cliphist","idle_inhibitor","clock","custom/r_end","custom/l_end","hyprland/workspaces","wlr/taskbar","custom/spotify","custom/r_end","custom/padd"],
+	"modules-center": ["hyprland/window"],
+	"modules-right": ["custom/padd","custom/l_end","tray","custom/r_end","custom/l_end","network","backlight","bluetooth","pulseaudio","pulseaudio#microphone","idle_inhibitor","battery","custom/notifications","custom/r_end","custom/padd"],
 
 
 // sourced from modules based on config.ctl //
@@ -40,6 +40,29 @@
         "tooltip": true
     },
 
+    "hyprland/workspaces": {
+        "on-click": "activate",
+        "format": "{icon}",
+        "format-icons": {
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "active": "󱓻",
+            "urgent": "󱓻"
+        },
+    },
+
+  "idle_inhibitor": {
+        "format": "{icon}",
+        "rotate": 0,
+        "format-icons": {
+            "activated": "|",
+            "deactivated": "|"
+        }
+    },
+
 	"wlr/taskbar": {
 		"format": "{icon}",
 		"rotate": 0,
@@ -50,7 +73,7 @@
 		"on-click": "activate",
 		"on-click-middle": "close",
 		"ignore-list": [
-			"Alacritty"
+			"kitty"
 		],
 		"app_ids-mapping": {
 			"firefoxdeveloperedition": "firefox-developer-edition"
@@ -75,7 +98,7 @@
     "clock": {
         "format": "{:%I:%M %p}",
         "rotate": 0,
-        "format-alt": "{:%R 󰃭 %d·%m·%y}",
+        "format-alt": "{:%R 󰃭 %y·%m·%d}",
         "tooltip-format": "<span>{calendar}</span>",
         "calendar": {
             "mode": "month",
@@ -124,14 +147,15 @@
         "format-icons": ["", "", "", "", "", "", "", "", ""],
         "on-scroll-up": "brightnessctl set 1%+",
         "on-scroll-down": "brightnessctl set 1%-",
+        "tooltip-format": "{icon}backlight: {0}",
         "min-length": 6
     },
 
     "network": {
         "tooltip": true,
-        "format-wifi": " ",
+        "format-wifi": " {bandwidthDownBytes}",
         "rotate": 0,
-        "format-ethernet": "󰈀 ",
+        "format-ethernet": "󰈀 {bandwidthDownBytes}",
         "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: <b>{ipaddr}/{cidr}</b>\nGateway: <b>{gwaddr}</b>\nNetmask: <b>{netmask}</b>",
         "format-linked": "󰈀 {ifname} (No IP)",
         "format-disconnected": "󰖪 ",
@@ -140,16 +164,31 @@
         "interval": 5,
         "on-click-right": "nm-connection-editor"
     },
+    
+    "bluetooth": {
+        "format": "",
+        "rotate": 0,
+        "format-disabled": "",
+        "format-connected": "{num_connections}",
+        "format-connected-battery": "{icon} {num_connections}",
+        // "format-connected-battery": "{icon} {device_alias}-{device_battery_percentage}%",
+        "format-icons": ["󰥇", "󰤾", "󰤿", "󰥀", "󰥁", "󰥂", "󰥃", "󰥄", "󰥅", "󰥆", "󰥈"],
+        // "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device If this config option is not defined or none of the devices in the list are connected, it will fall back to showing the last connected device.
+        "tooltip-format": "{controller_alias}\n{num_connections} connected",
+        "tooltip-format-connected": "{controller_alias}\n{num_connections} connected\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{icon} {device_battery_percentage}%"
+    },
 
     "pulseaudio": {
         "format": "{icon} {volume}",
         "rotate": 0,
-        "format-muted": "婢",
+        "format-muted": "",
         "on-click": "pavucontrol -t 3",
         "on-click-middle": "volumecontrol.sh -o m",
         "on-scroll-up": "volumecontrol.sh -o i",
         "on-scroll-down": "volumecontrol.sh -o d",
-        "tooltip-format": "{icon} {desc} // {volume}%",
+        "tooltip-format": "{icon} {desc}: {volume}%",
         "scroll-step": 5,
         "format-icons": {
             "headphone": "",
@@ -163,15 +202,15 @@
     },
 
     "pulseaudio#microphone": {
-        "format": "{format_source}",
+        "format": "{format_source} {source_volume}",
         "rotate": 0,
-        "format-source": "",
+        "format-source": "",
         "format-source-muted": "",
         "on-click": "pavucontrol -t 4",
         "on-click-middle": "volumecontrol.sh -i m",
         "on-scroll-up": "volumecontrol.sh -i i",
         "on-scroll-down": "volumecontrol.sh -i d",
-        "tooltip-format": "{format_source} {source_desc} // {source_volume}%",
+        "tooltip-format": "{format_source} {source_desc}: {source_volume}%",
         "scroll-step": 5
     },
 
@@ -202,7 +241,6 @@
         "tooltip": true,
         "escape": true
     },
-
 
 // modules for padding //
 
